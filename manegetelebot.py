@@ -26,7 +26,8 @@ class State:
 class ButtonState(State):
     def check_answer(self, user, answer):
         if answer in self.answers.keys():
-            bot.send_message(user, self.answers[answer].text, reply_markup=self.keyboard)
+            if self.answers[answer].text != "":
+                bot.send_message(user, self.answers[answer].text, reply_markup=self.keyboard)
             user_state[user] = self.answers[answer].state
 
 
@@ -50,7 +51,7 @@ n_states = 9
 states = list(range(n_states))
 states[0] = ButtonState(
     {
-        "🧩 Начать квест": Answer("Вы начали квест ознакомтесь со статьей.", 1),
+        "🧩 Начать квест": Answer("", 1),
         "🎧 Прослушать аудиогид по выставке": Answer(
             "https://izi.travel/en/browse/76ad97a7-3969-4427-a0c7-08b20490d65f?lang=ru",
             0),
@@ -64,7 +65,7 @@ states[1] = ButtonState(
         "➡️Далее": Answer("Начали!", 2),
         "✖️Выход": Answer("✖️Выход", 0)
     },
-    "https://telegra.ph/Mezhmuzejnyj-vystavochnyj-proekt-Pokoj-i-Radost-12-09 "
+    "Вы начали квест ознакомитесь со статьей (https://telegra.ph/Mezhmuzejnyj-vystavochnyj-proekt-Pokoj-i-Radost-12-09)."
 )
 
 states[2] = ButtonState(
