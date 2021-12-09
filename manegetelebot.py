@@ -64,7 +64,7 @@ states[1] = ButtonState(
         "➡️Далее": Answer("Начали!", 2),
         "✖️Выход": Answer("✖️Выход", 0)
     },
-    "https://telegra.ph/Informaciya-o-vystavke-12-02"
+    "https://telegra.ph/Mezhmuzejnyj-vystavochnyj-proekt-Pokoj-i-Radost-12-09 "
 )
 
 states[2] = ButtonState(
