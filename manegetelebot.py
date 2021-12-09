@@ -20,14 +20,15 @@ class State:
         self.phrase = phrase
 
     def process_state(self, user):
-        bot.send_message(user, self.phrase, reply_markup=self.keyboard)
+        bot.send_message(user, self.phrase, reply_markup=self.keyboard, parse_mode='Markdown')
 
 
 class ButtonState(State):
     def check_answer(self, user, answer):
         if answer in self.answers.keys():
             if self.answers[answer].text != "":
-                bot.send_message(user, self.answers[answer].text, reply_markup=self.keyboard)
+                bot.send_message(user, self.answers[answer].text, reply_markup=self.keyboard,
+                                 parse_mode='Markdown')
             user_state[user] = self.answers[answer].state
 
 
@@ -38,7 +39,7 @@ class TextState(State):
 
     def check_answer(self, user, answer):
         if answer in self.answers.keys():
-            bot.send_message(user, self.answers[answer].text, reply_markup=self.keyboard)
+            bot.send_message(user, self.answers[answer].text, reply_markup=self.keyboard, parse_mode='Markdown')
             user_state[user] = self.answers[answer].state
         elif answer == self.true_answer:
             bot.send_message(user, "✅ Верно")
@@ -65,7 +66,7 @@ states[1] = ButtonState(
         "➡️Далее": Answer("Начали!", 2),
         "✖️Выход": Answer("✖️Выход", 0)
     },
-    "Вы начали квест ознакомитесь со статьей (https://telegra.ph/Mezhmuzejnyj-vystavochnyj-proekt-Pokoj-i-Radost-12-09)."
+    "Вы начали квест ознакомитесь со [статьей](https://telegra.ph/Mezhmuzejnyj-vystavochnyj-proekt-Pokoj-i-Radost-12-09)."
 )
 
 states[2] = ButtonState(
@@ -75,7 +76,7 @@ states[2] = ButtonState(
         "Ответ 3": Answer("❌ Не Верно!", 2),
         "✖️Выход": Answer("✖️Выход", 0)
     },
-    "Выбрать 3 картины (выбор ребят), по ним краткая информация и вопросы к каждой. Нужно выбрать верный вариант"
+    "Выбрать 3 картины, по ним краткая информация и вопросы к каждой. Нужно выбрать верный вариант"
 )
 
 states[3] = TextState(
@@ -92,7 +93,7 @@ states[4] = TextState(
 
 states[5] = ButtonState(
     {"➡️Далее": Answer("Продлжим!", 6)},
-    "Ура! Ты на пол пути! Поднимайся наверх.\nПока идешь послушай: \nhttps://batagov.lnk.to/pokoiiradost"
+    "Ура! Ты на пол пути! Поднимайся наверх.[Пока идешь послушай](https://batagov.lnk.to/pokoiiradost)"
 )
 
 states[6] = TextState(
@@ -107,7 +108,7 @@ states[7] = ButtonState({
     "Ответ 3": Answer("❌ Не Верно!", 7),
     "✖️Выход": Answer("✖️Выход", 0)
 },
-    "Еще один вопрос с выбором."
+    "Еще один вопрос с выбором"
 )
 
 states[8] = ButtonState(
@@ -132,6 +133,7 @@ def user_answer(message):
     states[user_state[user]].check_answer(user, answer)
     states[user_state[user]].process_state(user)
     print(states[user_state[user]])
+
 
 if __name__ == "__main__":
     while True:
