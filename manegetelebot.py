@@ -128,11 +128,9 @@ def user_answer(message):
     answer = message.text
     if user not in user_state:
         user_state[user] = 0
-    state = user_state[user]
-
-    states[state].check_answer(user, answer)
-    states[state].process_state(user)
-
+    states[user_state[user]].check_answer(user, answer)
+    states[user_state[user]].process_state(user)
+    print(states[user_state[user]])
 
 if __name__ == "__main__":
     while True:
